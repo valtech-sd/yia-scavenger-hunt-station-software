@@ -13,6 +13,12 @@ To review the API definition, you can do either of:
 
 This API is based on API Focus. See the embedded README-ApiFocus or visit https://github.com/valtech-sd/ApiFocus for the latest.
 
+## Dependencies
+
+- NodeJS v14.16. 
+- (Optional but recommended) Node Version Manager (nvm). For more information about Node Version Manager, see https://github.com/nvm-sh/nvm.
+  - Ensure you have the proper version of node via nvm with `nvm install 14.16`
+  
 ## Running the server
 
 From inside the InteractiveBoxServer directory, do an `npm i` first to install dependencies, then:
