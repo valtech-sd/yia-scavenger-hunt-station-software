@@ -41,3 +41,9 @@ atlassian-ide-plugin.xml
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+## Project Specific Items - Project Server Core
+
+# Exclude log files but keep the empty analytics directory
+static/analytics/*
+!static/analytics/.gitkeep

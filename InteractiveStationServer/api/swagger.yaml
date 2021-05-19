@@ -78,7 +78,6 @@ paths:
           description: The Guest Token ID (scanned from the Guest Token).
           type: string
           required: true
-
       responses:
         "200":
           description: "**OK**: State Set. Returns JSON with the state that was set."
@@ -136,4 +135,68 @@ paths:
         "200":
           description: "**OK**: Returns State JSON."
 
+  /api/report-event:
+    post:
+      tags:
+        - no auth
+      summary: |
+        Reports an Event into Analytics.
+      description: "This is an endpoint that allows a client to report into Analytics."
+      x-swagger-router-controller: AnalyticsApiController
+      operationId: reportEventPost
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: reportEventRequest
+          schema:
+            $ref: '#/definitions/ReportEventPostRequest'
+      responses:
+        "204":
+          description: "**OK**: Returns Event Confirmation JSON."
+
 definitions:
+
+  ReportEventPostRequest:
+    description: |
+      This schema is used to format the request body for the POST of an Analytics Event.
+    type: object
+    required:
+      - guestTokenId
+      - eventName
+      - BOX_ID
+      - SEQUENCE_ID
+      - variantId
+    properties:
+      - name: guestTokenId
+        in: body
+        description: The guest's Token ID.
+        type: string
+      - name: eventName
+        in: body
+        description: The event name to report (a string, but clients should be consistent.)
+        type: string
+      - name: BOX_ID
+        in: body
+        description: The BOX_ID where the event is coming from.
+        type: string
+      - name: SEQUENCE_ID
+        in: body
+        description: The SEQUENCE_ID that generated the event.
+        type: string
+      - name: variantId
+        in: body
+        description: The variantId for the event.
+        type: string
+      - name: otherData
+        in: body
+        description: Any arbitrary data a client wants to capture. Should be a JSON object.
+        type: object
+    example:
+      guestTokenId: "token-id-here"
+      eventName: "some event name (clients should be consistent)"
+      BOX_ID: "01"
+      SEQUENCE_ID: "01"
+      variantId: "c"
+      otherData:
+        someItem: "an object with arbitrary properties"
