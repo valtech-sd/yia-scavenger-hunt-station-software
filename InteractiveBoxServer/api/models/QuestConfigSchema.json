@@ -1,0 +1,328 @@
+{
+  "$id": "QuestObjectSchema",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "default": {},
+  "description": "The QuestObjectSchema comprises the entire JSON document for the Quest Object.",
+  "examples": [],
+  "required": [
+  "supportingMedia",
+  "questItems"
+],
+  "title": "The schema for the Quest configuration a.k.a. Quest Object.",
+  "type": "object",
+  "properties": {
+  "supportingMedia": {
+    "$id": "#/properties/supportingMedia",
+      "type": "array",
+      "title": "The supportingMedia schema.",
+      "description": "The supportingMedia schema holds Quest details that are not associated with a variant.",
+      "default": [],
+      "examples": [
+        [
+          {
+            "BOX_ID": "01",
+            "SEQUENCE_ID": "01",
+            "type": "idle",
+            "media": "w01_s01_idle.mp4"
+          },
+          {
+            "BOX_ID": "01",
+            "SEQUENCE_ID": "01",
+            "type": "unsuccessful-activation",
+            "media": "w01_s01_unac.mp4"
+          }
+        ]
+      ],
+      "items": {
+      "$id": "#/properties/supportingMedia/items",
+        "anyOf": [
+        {
+          "$id": "#/properties/supportingMedia/items/anyOf/0",
+          "type": "object",
+          "title": "The first anyOf schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": {},
+          "examples": [
+            {
+              "BOX_ID": "01",
+              "SEQUENCE_ID": "01",
+              "type": "idle",
+              "media": "w01_s01_idle.mp4"
+            }
+          ],
+          "required": [
+            "BOX_ID",
+            "SEQUENCE_ID",
+            "type",
+            "media"
+          ],
+          "properties": {
+            "BOX_ID": {
+              "$id": "#/properties/supportingMedia/items/anyOf/0/properties/boxId",
+              "type": "string",
+              "title": "The BOX_ID schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                "01"
+              ]
+            },
+            "SEQUENCE_ID": {
+              "$id": "#/properties/supportingMedia/items/anyOf/0/properties/sequenceId",
+              "type": "string",
+              "title": "The SEQUENCE_ID schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                "01"
+              ]
+            },
+            "type": {
+              "$id": "#/properties/supportingMedia/items/anyOf/0/properties/type",
+              "type": "string",
+              "title": "The type schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "enum": [
+                "idle",
+                "unsuccessful-activation"
+              ],
+              "examples": [
+                "idle"
+              ]
+            },
+            "media": {
+              "$id": "#/properties/supportingMedia/items/anyOf/0/properties/media",
+              "type": "string",
+              "title": "The media schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                "w01_s01_idle.mp4"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "questItems": {
+    "$id": "#/properties/questItems",
+      "type": "array",
+      "title": "The questItems schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": [],
+      "examples": [
+      [
+        {
+          "SEQUENCE_ID": "01",
+          "variantId": "a",
+          "BOX_ID": "01",
+          "activeFlag": true,
+          "notActiveMedia": "",
+          "activationMedia": "",
+          "mainMedia": "",
+          "timeoutMedia": "",
+          "viewType": "question-wait-for-answer",
+          "successKeys": "a",
+          "successMedia": "",
+          "retriesAllowed": 4,
+          "retryMedia": "",
+          "failMedia": ""
+        }
+      ]
+    ],
+      "items": {
+      "$id": "#/properties/questItems/items",
+        "anyOf": [
+        {
+          "$id": "#/properties/questItems/items/anyOf/0",
+          "type": "object",
+          "title": "The first anyOf schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": {},
+          "examples": [
+            {
+              "SEQUENCE_ID": "01",
+              "variantId": "a",
+              "BOX_ID": "01",
+              "activeFlag": true,
+              "notActiveMedia": "",
+              "activationMedia": "",
+              "mainMedia": "",
+              "timeoutMedia": "",
+              "viewType": "question-wait-for-answer",
+              "successKeys": "a",
+              "successMedia": "",
+              "retriesAllowed": 4,
+              "retryMedia": "",
+              "failMedia": ""
+            }
+          ],
+          "required": [
+            "SEQUENCE_ID",
+            "variantId",
+            "BOX_ID",
+            "activeFlag",
+            "notActiveMedia",
+            "activationMedia",
+            "mainMedia",
+            "timeoutMedia",
+            "viewType",
+            "successKeys",
+            "successMedia",
+            "retriesAllowed",
+            "retryMedia",
+            "failMedia"
+          ],
+          "properties": {
+            "SEQUENCE_ID": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/sequenceId",
+              "type": "string",
+              "title": "The SEQUENCE_ID schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                "01"
+              ]
+            },
+            "variantId": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/variantId",
+              "type": "string",
+              "title": "The variantId schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                "a"
+              ]
+            },
+            "BOX_ID": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/boxId",
+              "type": "string",
+              "title": "The BOX_ID schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                "01"
+              ]
+            },
+            "activeFlag": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/activeFlag",
+              "type": "boolean",
+              "title": "The activeFlag schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": false,
+              "examples": [
+                true
+              ]
+            },
+            "notActiveMedia": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/notActiveMedia",
+              "type": "string",
+              "title": "The notActiveMedia schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                ""
+              ]
+            },
+            "activationMedia": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/activationMedia",
+              "type": "string",
+              "title": "The activationMedia schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                ""
+              ]
+            },
+            "mainMedia": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/mainMedia",
+              "type": "string",
+              "title": "The mainMedia schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                ""
+              ]
+            },
+            "timeoutMedia": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/timeoutMedia",
+              "type": "string",
+              "title": "The timeoutMedia schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                ""
+              ]
+            },
+            "viewType": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/viewType",
+              "type": "string",
+              "title": "The viewType schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "enum": [
+                "question-wait-for-answer"
+              ],
+              "examples": [
+                "question-wait-for-answer"
+              ]
+            },
+            "successKeys": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/successKeys",
+              "type": "string",
+              "title": "The successKeys schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                "a", "ab", "12"
+              ]
+            },
+            "successMedia": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/successMedia",
+              "type": "string",
+              "title": "The successMedia schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                ""
+              ]
+            },
+            "retriesAllowed": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/retriesAllowed",
+              "type": "integer",
+              "title": "The retriesAllowed schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": 0,
+              "examples": [
+                4
+              ]
+            },
+            "retryMedia": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/retryMedia",
+              "type": "string",
+              "title": "The retryMedia schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                ""
+              ]
+            },
+            "failMedia": {
+              "$id": "#/properties/questItems/items/anyOf/0/properties/failMedia",
+              "type": "string",
+              "title": "The failMedia schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+}

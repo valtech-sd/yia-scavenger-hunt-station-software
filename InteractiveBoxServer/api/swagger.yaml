@@ -1,0 +1,139 @@
+swagger: '2.0'
+
+info:
+  version: 1.0.0
+  title: Interactive Box Server
+  description: |
+    A simple API for interactive boxes. This version assumes that each box runs a single instance
+    of the server and that the server (with whatever config values) is only being accessed by a single
+    browser. This is because "state" is kept server-side and is not shared. In fact, multiple browsers
+    could access the server, but they will all show the same content and will affect each other when
+    peforming actions that change state.
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+tags:
+  - name: no auth
+    description: No authentication is required for these endpoints.
+  - name: auth required
+    description: |
+      Authentication is required for these endpoints. A device must pass a valid ApiKey header.
+
+paths:
+
+  /:
+    get:
+      tags:
+        - no auth
+      summary: |
+        API Ping
+      description: "This endpoint is used to verify the server is available."
+      x-swagger-router-controller: IndexController
+      operationId: indexGet
+      responses:
+        "200":
+          description: "**OK**: The server is up. A simple JSON object is returned with a timestamp."
+
+  /api/set-box-state:
+    get:
+      tags:
+        - no auth
+      summary: |
+        Sets the gobal state for the box where the API is running.
+      description: "This is an endpoint useful for testing and overriding BoxState via remote calls."
+      x-swagger-router-controller: QuestApiController
+      operationId: setBoxState
+      produces:
+        - application/json
+      parameters:
+        - name: BOX_ID
+          in: query
+          description: |
+            Overrides the ID of the Interactive Box set in the box config. If not passed, defaults to the
+            internal config which should have a BOX_ID value.
+          type: string
+          required: false
+        - name: SEQUENCE_ID
+          in: query
+          description: |
+            Overrides the Sequence ID of the Interactive Box set in the box config. If not passed, defaults to the
+            internal config which should have a SEQUENCE_ID value.
+          type: string
+          required: false
+        - name: guestVariantId
+          in: query
+          description: The Guest Variant ID (scanned from the Guest Token).
+          type: string
+          required: true
+        - name: guestSequenceId
+          in: query
+          description: The Guest Sequence ID (scanned from the Guest Token).
+          type: string
+          required: true
+        - name: guestTokenId
+          in: query
+          description: The Guest Token ID (scanned from the Guest Token).
+          type: string
+          required: true
+
+      responses:
+        "200":
+          description: "**OK**: State Set. Returns JSON with the state that was set."
+
+  /api/clear-box-state:
+    get:
+      tags:
+        - no auth
+      summary: |
+        Clears the gobal state for the box where the API is running. box and sequence will go back to the
+        internal values set in the box's config.
+      description: "This is an endpoint useful for testing and overriding BoxState via remote calls."
+      x-swagger-router-controller: QuestApiController
+      operationId: clearBoxState
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: "**OK**: State Cleared. Returns JSON (empty State)."
+
+  /api/get-box-state:
+    get:
+      tags:
+        - no auth
+      summary: |
+        Gets the gobal state for the box where the API is running.
+      description: "This is an endpoint useful for checking BoxState via remote calls."
+      x-swagger-router-controller: QuestApiController
+      operationId: getBoxState
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: "**OK**: Returns State JSON."
+
+  /api/control-lights:
+    get:
+      tags:
+        - no auth
+      summary: |
+        Controls the ligs for the box.
+      description: "This is an endpoint that controls Box Lights."
+      x-swagger-router-controller: GpioController
+      operationId: controlLights
+      produces:
+        - application/json
+      parameters:
+        - name: lightSequence
+          in: query
+          description: |
+            A key that represents the light sequence to display.
+          type: string
+          required: true
+      responses:
+        "200":
+          description: "**OK**: Returns State JSON."
+
+definitions:
