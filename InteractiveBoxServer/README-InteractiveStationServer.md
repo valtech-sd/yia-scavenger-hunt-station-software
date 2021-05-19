@@ -1,11 +1,17 @@
-# README
+# InteractiveBoxServer - README
 
-This is the Backend Server for the Interactive Boxes.
+## Summary 
+
+This is the Backend Server for the Interactive Boxes (stations).
 
 To review the API definition, you can do either of:
 
 * bring up the API DOCS by running this in NodeJS and reviewing http://localhost:8000/api-docs-ui/. 
 * review the file **./api/swagger.yaml** for the API Specification.
+
+## Credits
+
+This API is based on API Focus. See the embedded README-ApiFocus or visit https://github.com/valtech-sd/ApiFocus for the latest.
 
 ## Running the server
 
@@ -111,6 +117,7 @@ Analytics Event Names (and who generates them):
 * (Eric) Implement the logging endpoint
 * (Eric) Implement the logging file
 * (Eric, low priority) Define the API endpoint responses more fully in the Swagger definition.
+* (??, low priority) Refactor "box" for "station" in all the various places (i.e. STATION_ID, InteractiveStationServer, etc.)
 
 ## More items to consider
 
