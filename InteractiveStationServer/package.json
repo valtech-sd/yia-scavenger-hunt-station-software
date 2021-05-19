@@ -1,7 +1,7 @@
 {
-  "name": "interactive-box-server",
+  "name": "interactive-station-server",
   "version": "1.0.2",
-  "description": "Based on ApiFocus v 1.0.2. A project that responds with web content for interactive boxes.",
+  "description": "An API project for interactive stations. Based on ApiFocus v 1.0.2.",
   "main": "app.js",
   "scripts": {
     "start-watch": "NODE_ENV=dev nodemon app.js",
