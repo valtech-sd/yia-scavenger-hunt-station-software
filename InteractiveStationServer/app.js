@@ -22,7 +22,6 @@ const NotImplementedErrorController = require('./api/helpers/NotImplementedError
 const SwaggerRouterHelper = require('./api/helpers/SwaggerRouterHelper');
 const AuthenticationHelper = require('./api/helpers/AuthenticationHelper');
 const QuestConfig = require('./api/models/QuestConfig');
-const LoggingManager = require('./api/helpers/LoggingHelper');
 
 // Globals
 global.config = require('./config/config.js');
@@ -30,6 +29,10 @@ global.eventsReceiver = require('./api/helpers/EventsReceiver');
 
 // Local instances of globals
 const config = global.config;
+
+// Initialize some helpers, that though not used here, cause global side effects we use elsewhere
+const LoggingHelper = require('./api/helpers/LoggingHelper');
+const AnalyticsHelper = require('./api/helpers/AnalyticsHelper');
 
 // Pull from config
 const INTERNAL_BOX_ID = config.get('BOX_ID');

@@ -8,8 +8,8 @@ const packageDetails = require('../../package.json');
 
 /**
  * This is a wrapper around Bunyan (for now).
- * Why? We might want to change how logging actually logs
- * or where it logs to and this lets us do it in a single location.
+ * Why? We might want to change how logging actually analytics
+ * or where it analytics to and this lets us do it in a single location.
  */
 
 // Create a logger

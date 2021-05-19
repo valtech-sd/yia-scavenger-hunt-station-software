@@ -96,10 +96,14 @@ Clients should report events by calling the /api/report-event endpoint with:
 - BOX_ID
 - SEQUENCE_ID
 - variantId
+- otherData - optional but if passed, can be a JSON object with further arbitrary data of the client's choice.
 
 The server will add:
 
-- timestamp (added server-side)
+- time (added server-side)
+- name of the app
+- hostname
+- pid - process id
 
 Analytics Event Names (and who generates them):
 - (client) failed activation sequence mismatch
@@ -115,14 +119,18 @@ Analytics Event Names (and who generates them):
 
 > **Note:** Do not include "(client)" nor "(server)" in the analytics name passed to the report-event endpoint.
 
+### Analytics Config
+
+The server's config has two keys that control where Analytics Events are stored:
+- analyticsFileName - the name to be used for the Analytics Event Log. 
+- analyticsLogPath - the path where the Analytics Event Log will be written to.
+
 ## TODO
 
 * (Stash) Implement rfid scan event with set of state - the GPIO event should use the static method BoxState.recordGuestScan(); See the TODO in the file EventsReceiver.js.
 * (Stash) Implement lights control logic in GpioController.js, controlLights() method (already wired into /api/control-lights). See the TODO in the file GpioController.js.
   - Note, we can add an ENUM to the swagger yaml file to ensure the sequence keys are validated by the API prior to calling the controller.
 * (??) Front end views matching [Sequence of client actions](#Sequence-of-client-actions).
-* (Eric) Implement the logging endpoint
-* (Eric) Implement the logging file
 * (Eric, low priority) Define the API endpoint responses more fully in the Swagger definition.
 * (??, low priority) Refactor "box" for "station" in all the various places (i.e. STATION_ID, InteractiveStationServer, etc.)
 

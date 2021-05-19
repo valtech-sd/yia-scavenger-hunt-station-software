@@ -111,6 +111,18 @@ const config = convict({
     format: '*',
     default: '/static/media',
   },
+  analyticsLogPath: {
+    doc:
+      'The path to a directory that log files will be written to. Should not end in /.',
+    format: '*',
+    default: '/analytics',
+  },
+  analyticsFileName: {
+    doc:
+      'The file name where log files will be appended to. Rotation will be handled by the logging library.',
+    format: '*',
+    default: 'event.log',
+  },
 });
 
 /**
