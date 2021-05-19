@@ -112,7 +112,8 @@ Analytics Event Names (and who generates them):
 ## TODO
 
 * (Stash) Implement rfid scan event with set of state - the GPIO event should use the static method BoxState.recordGuestScan(); See the TODO in the file EventsReceiver.js.
-* (Stash) Implement lights control logic in GpioController.js, controlLights() method (already wired into /api/control-lights). See the TODO in the file.
+* (Stash) Implement lights control logic in GpioController.js, controlLights() method (already wired into /api/control-lights). See the TODO in the file GpioController.js.
+  - Note, we can add an ENUM to the swagger yaml file to ensure the sequence keys are validated by the API prior to calling the controller.
 * (??) Front end views matching [Sequence of client actions](#Sequence-of-client-actions).
 * (Eric) Implement the logging endpoint
 * (Eric) Implement the logging file
@@ -126,6 +127,10 @@ Station Admin
 
 Station Deployment
 - Deployment shoots the entire quest object to all boxes.
+- Needs to set the prod.json5 for each box to have the proper BOX_ID and SEQUENCE_ID (we can re-run weekly to reset SEQUENCE_ID).
+
+Station Logs Pull
+- Need an Ansible to pull the logs from all stations. Should prob use a naming convention.
 
 Client Views
 - Video finishes then actions happen, so events are needed for "video ended", etc.
