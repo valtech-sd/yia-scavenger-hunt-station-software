@@ -31,14 +31,14 @@ const config = convict({
     doc: 'The application environment.',
     format: ['prod', 'dev', 'test'],
     default: 'dev',
-    // This property can be overriden from the NODE_ENV
+    // This property can be overridden from the NODE_ENV
     env: 'NODE_ENV',
   },
   port: {
     doc: 'The port to bind.',
     format: 'port',
     default: 8000,
-    // This property can be overriden from the environment variable PORT
+    // This property can be overridden from the environment variable PORT
     env: 'PORT',
   },
   hostname: {
@@ -84,14 +84,14 @@ const config = convict({
     doc: 'The ID of the box where the server is running.',
     format: '*',
     default: '99',
-    // This property can be overriden from the environment variable BOX_ID
+    // This property can be overridden from the environment variable BOX_ID
     env: 'BOX_ID',
   },
   SEQUENCE_ID: {
     doc: 'The ID of the sequence to implement for this server instance.',
     format: '*',
     default: '99',
-    // This property can be overriden from the environment variable SEQUENCE_ID
+    // This property can be overridden from the environment variable SEQUENCE_ID
     env: 'SEQUENCE_ID',
   },
   questConfigFilePath: {

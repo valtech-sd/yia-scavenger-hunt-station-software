@@ -15,7 +15,7 @@ This API is based on API Focus. See the embedded README-ApiFocus or visit https:
 
 ## Running the server
 
-From inside the InteractiveBoxServer directory:
+From inside the InteractiveBoxServer directory, do an `npm i` first to install dependencies, then:
 
 ```bash
 npm run start-dev
@@ -31,8 +31,8 @@ There are two files that hold configuration:
 
 ### Overrides
 
-* BOX_ID can be overriden in a NODE_ENV specific configuration file or by passing the BOX_ID environment variable into the NODE command. The server will not start without this value.
-* SEQUENCE_ID can be overriden in a NODE_ENV specific configuration file or by passing the SEQUENCE_ID environment variable into the NODE command. The server will not start without this value.
+* BOX_ID can be overridden in a NODE_ENV specific configuration file or by passing the BOX_ID environment variable into the NODE command. The server will not start without this value.
+* SEQUENCE_ID can be overridden in a NODE_ENV specific configuration file or by passing the SEQUENCE_ID environment variable into the NODE command. The server will not start without this value.
 
 ## Quest Configuration
 
