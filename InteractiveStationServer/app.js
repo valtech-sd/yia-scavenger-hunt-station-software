@@ -16,16 +16,17 @@ const swaggerRouter = require('swagger-express-router');
 const HttpError = require('http-errors');
 const cacheControl = require('express-cache-controller');
 
+// Globals (need this as early as possible, ideally just after package dependencies)
+global.config = require('./config/config.js');
+global.eventsReceiver = require('./api/helpers/EventsReceiver');
+
 // Internal Dependencies
 const GeneralErrorController = require('./api/helpers/GeneralErrorHelper');
 const NotImplementedErrorController = require('./api/helpers/NotImplementedErrorHelper');
 const SwaggerRouterHelper = require('./api/helpers/SwaggerRouterHelper');
 const AuthenticationHelper = require('./api/helpers/AuthenticationHelper');
 const QuestConfig = require('./api/models/QuestConfig');
-
-// Globals
-global.config = require('./config/config.js');
-global.eventsReceiver = require('./api/helpers/EventsReceiver');
+const BoxState = require('./api/models/BoxState');
 
 // Local instances of globals
 const config = global.config;
@@ -236,6 +237,20 @@ middleware.init(swaggerFilePath, (err) => {
         'hostname'
       )}:${config.get('port')}`
     );
+    // Ensure our static state is set properly from startup
+    BoxState.clearState();
+    // Start event receivers
     global.eventsReceiver.enableEventReceivers();
   });
+});
+
+// Set a handler for 'NodeJS Process Exit'. Other classes can register tasks to do!
+global.exitTasks = [];
+process.on('SIGINT', (_) => {
+  // Execute any exit tasks registered by other parts of the application
+  for (let exitTask of global.exitTasks) {
+    exitTask();
+  }
+  // Now, we can exit
+  process.exit();
 });

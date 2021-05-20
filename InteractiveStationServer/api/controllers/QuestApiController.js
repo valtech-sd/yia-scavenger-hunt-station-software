@@ -35,13 +35,8 @@ class QuestApiController {
       req.query.guestTokenId
     );
 
-    // Prepare a response object
-    const stateResponse = {
-      viewState: BoxState.getState(),
-    };
-
     // Respond
-    res.send(JSON.stringify(stateResponse));
+    res.send(JSON.stringify(BoxState.getState()));
   }
 
   /**
@@ -61,13 +56,8 @@ class QuestApiController {
     // Set the global state (BOX_ID will default back to what is in the config for the box)
     BoxState.clearState();
 
-    // Prepare a response object
-    const stateResponse = {
-      viewState: BoxState.getState(),
-    };
-
     // Respond
-    res.send(JSON.stringify(stateResponse));
+    res.send(JSON.stringify(BoxState.getState()));
   }
 
   /**
@@ -90,7 +80,7 @@ class QuestApiController {
     };
 
     // Respond
-    res.send(JSON.stringify(stateResponse));
+    res.send(JSON.stringify(BoxState.getState()));
   }
 }
 

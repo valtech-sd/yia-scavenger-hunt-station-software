@@ -9,7 +9,6 @@ const config = global.config;
 // Pull from config
 const INTERNAL_BOX_ID = config.get('BOX_ID');
 const INTERNAL_SEQUENCE_ID = config.get('SEQUENCE_ID');
-const MEDIA_ROOT = config.get('mediaRoot');
 
 class BoxState {
   // Private Instance variable to hold our Box State
@@ -18,7 +17,6 @@ class BoxState {
     SEQUENCE_ID: INTERNAL_SEQUENCE_ID,
     supportingMedia: null,
     questItem: null,
-    mediaRoot: MEDIA_ROOT,
     lastUpdated: Math.floor(new Date().getTime() / 1000.0),
     // To hold what we scanned from the guest's token
     guestVariantId: null,
