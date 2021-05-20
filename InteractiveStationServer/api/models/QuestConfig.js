@@ -37,15 +37,17 @@ class QuestConfig {
     // Pull the config
     const questConfig = this.getQuestConfig();
     // Filter the questItems
-    const questItemForBox = questConfig.questItems.filter((item) => {
+    const questItemForBox = questConfig['questItems'].filter((item) => {
       return (
         item.BOX_ID === boxId &&
         item.variantId === variantId &&
         item.SEQUENCE_ID === sequenceId
       );
     });
-    // Return what we found
-    return questItemForBox;
+    // Return what we found - but the FIRST since we only support ONE per Box+Variant+Sequence
+    return Array.isArray(questItemForBox) && questItemForBox.length > 0
+      ? questItemForBox[0]
+      : null;
   }
 
   /**
@@ -62,10 +64,9 @@ class QuestConfig {
     }
     const questConfig = this.getQuestConfig();
     // Filter the supportingMedia
-    const supportingMediaForBox = questConfig.supportingMedia.filter((item) => {
+    return questConfig.supportingMedia.filter((item) => {
       return item.BOX_ID === boxId && item.SEQUENCE_ID === sequenceId;
     });
-    return supportingMediaForBox;
   }
 
   /**

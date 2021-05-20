@@ -106,11 +106,6 @@ const config = convict({
     format: '*',
     default: './api/models/QuestConfigSchema.json',
   },
-  mediaRoot: {
-    doc: 'The path of media root directory that contains all project media.',
-    format: '*',
-    default: '/static/media',
-  },
   analyticsLogPath: {
     doc:
       'The path to a directory that log files will be written to. Should not end in /.',

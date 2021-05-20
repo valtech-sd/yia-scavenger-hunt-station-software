@@ -30,7 +30,6 @@
     "pug": "^3.0.2",
     "rpi-softspi": "^1.0.5",
     "serve-favicon": "^2.5.0",
-    "start-dev": "^1.0.0",
     "swagger-express-router": "^1.0.0",
     "swagger-ui-express": "^4.1.6"
   },

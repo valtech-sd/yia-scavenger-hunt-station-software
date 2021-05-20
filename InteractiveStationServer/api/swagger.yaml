@@ -130,6 +130,7 @@ paths:
           description: |
             A key that represents the light sequence to display.
           type: string
+          enum: [MultiChoice, TrueFalse, IncrDecr]
           required: true
       responses:
         "200":
