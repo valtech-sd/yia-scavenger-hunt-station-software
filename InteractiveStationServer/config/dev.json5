@@ -3,7 +3,7 @@
   // Only items to override from defaults for an ENV need to be added here.
   questConfigFilePath: './config/quest-config-dev.json5',
   // Set this box to a specific BOX ID
-  BOX_ID: '01',
+  BOX_ID: '1',
   // Set this server to a specific SEQUENCE ID
-  SEQUENCE_ID: '01',
+  SEQUENCE_ID: '1',
 }

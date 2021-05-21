@@ -129,8 +129,9 @@ paths:
           in: query
           description: |
             A key that represents the light sequence to display.
+            Be sure the ENUM matches that QuestConfigSchema ENUM for viewType!
           type: string
-          enum: [MultiChoice, TrueFalse, IncrDecr]
+          enum: [Off, MultiChoice, TrueFalse, IncrDecr]
           required: true
       responses:
         "200":

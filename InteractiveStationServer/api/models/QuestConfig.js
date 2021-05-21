@@ -64,9 +64,15 @@ class QuestConfig {
     }
     const questConfig = this.getQuestConfig();
     // Filter the supportingMedia
-    return questConfig.supportingMedia.filter((item) => {
+    const supportingMediaForBox = questConfig.supportingMedia.filter((item) => {
       return item.BOX_ID === boxId && item.SEQUENCE_ID === sequenceId;
     });
+
+    // Return what we found - but the FIRST since we only support ONE per Box+Sequence
+    return Array.isArray(supportingMediaForBox) &&
+      supportingMediaForBox.length > 0
+      ? supportingMediaForBox[0]
+      : null;
   }
 
   /**

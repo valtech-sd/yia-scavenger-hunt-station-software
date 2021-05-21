@@ -125,12 +125,27 @@ The server's config has two keys that control where Analytics Events are stored:
 - analyticsFileName - the name to be used for the Analytics Event Log. 
 - analyticsLogPath - the path where the Analytics Event Log will be written to.
 
+## Creating quest-config JSON from Google Sheets
+
+Google Sheet (a single sheet) has two tabs for export:
+* Support Media - https://docs.google.com/spreadsheets/d/15Br4KLswxdlrO5Tc39O9s5mMXmEOmMN9eza7VUZA8zI/edit#gid=1044919816
+* Quest Item - https://docs.google.com/spreadsheets/d/15Br4KLswxdlrO5Tc39O9s5mMXmEOmMN9eza7VUZA8zI/edit#gid=353684181
+
+Steps:
+- Export each sheet to a CSV
+- Eliminate any unwanted rows, etc.
+- Bring into https://csvjson.com/csv2json and convert to JSON
+- Copy the JSON to your favorite editor and perform the following REGEX REPLACE to tweak certain fields:
+  - Replace 'SEQUENCE_ID: (\d\d?)' with 'SEQUENCE_ID: "$1"'
+  - Replace 'BOX_ID: (\d\d?)' with 'BOX_ID: "$1"'
+- Bring into the Quest Config for the project
+
 ## TODO
 
 * (Stash) Implement rfid scan event with set of state - the GPIO event should use the static method BoxState.recordGuestScan(); See the TODO in the file EventsReceiver.js.
-* (Stash) Implement lights control logic in GpioController.js, controlLights() method (already wired into /api/control-lights). See the TODO in the file GpioController.js.
-  - Note, we can add an ENUM to the swagger yaml file to ensure the sequence keys are validated by the API prior to calling the controller.
-* (??) Front end views matching [Sequence of client actions](#Sequence-of-client-actions).
+* (Stash) More light sequences?
+* (??) Refactor any uses of console.log()
+* (Eric) Front end views matching [Sequence of client actions](#Sequence-of-client-actions).
 * (Eric, low priority) Define the API endpoint responses more fully in the Swagger definition.
 * (??, low priority) Refactor "box" for "station" in all the various places (i.e. STATION_ID, InteractiveStationServer, etc.)
 

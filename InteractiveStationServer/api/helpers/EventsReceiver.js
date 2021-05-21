@@ -11,11 +11,12 @@ class EventsReceiver {
   static enableEventReceivers() {
     // TODO: Add GPIO Scan event here to set Scan into BoxState, already imported into this file.
     // initialize the class instance then start the detect card loop
-    mfrc522.init()
+    mfrc522
+      .init()
       .then(() => {
         rfidLoop();
       })
-      .catch(error => {
+      .catch((error) => {
         global.logger.info('RFID_ERROR: ' + error.message);
       });
   }
@@ -23,10 +24,9 @@ class EventsReceiver {
 
 // loop method to start detecting a card
 function rfidLoop() {
-  rfidCardDetect()
-    .catch(error => {
-      global.logger.info('RFID_ERROR: ' + error.message);
-    });
+  rfidCardDetect().catch((error) => {
+    global.logger.info('RFID_ERROR: ' + error.message);
+  });
 }
 
 // delay then call loop again
@@ -48,13 +48,15 @@ async function rfidCardDetect() {
     return rfidRestartLoop();
   }
   BoxState.recordGuestScan('01', 'A', uidToString(uid));
-  await mfrc522.resetPCD()
+  await mfrc522.resetPCD();
   rfidRestartLoop();
 }
 
 // convert the array of UID bytes to a hex string
 function uidToString(uid) {
-  return uid.reduce((s, b) => { return s + (b < 16 ? '0' : '') + b.toString(16); }, '');
+  return uid.reduce((s, b) => {
+    return s + (b < 16 ? '0' : '') + b.toString(16);
+  }, '');
 }
 
 module.exports = EventsReceiver;
