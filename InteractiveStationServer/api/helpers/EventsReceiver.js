@@ -23,7 +23,6 @@ class EventsReceiver {
 
 // loop method to start detecting a card
 function rfidLoop() {
-  console.log('Loop start...');
   rfidCardDetect()
     .catch(error => {
       global.logger.info('RFID_ERROR: ' + error.message);
