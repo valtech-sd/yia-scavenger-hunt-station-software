@@ -79,3 +79,11 @@ When a guest scans into the station, the above object's questItem property will 
 
 Note:
 - All the items in the box data are CASE SENSITIVE (except "successKeys" so that the user can type either upper or lowercase answers.)
+
+
+## TODO
+
+- Bash scripts to start/stop both NodeJS API and the client http-server, storing processes to PIDs.
+- Some scenarios are showing a white screen for a long time. (verify on mac browser. Are these on Pi only?)
+  - On W1 B, press D correct answer, and we see a pause then the WIN media.
+  - After W1 B, going to Idle shows a white screen for a bit

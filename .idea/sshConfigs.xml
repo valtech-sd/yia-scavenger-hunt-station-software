@@ -2,7 +2,12 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig authType="PASSWORD" host="192.168.254.92" id="a7b942e1-d736-44db-aefc-d249e557fb8e" port="22" nameFormat="DESCRIPTIVE" username="pi" />
+      <sshConfig authType="PASSWORD" host="192.168.254.92" id="a7b942e1-d736-44db-aefc-d249e557fb8e" port="22" customName="YIA PI Eric Home Wired" nameFormat="CUSTOM" username="pi">
+        <option name="customName" value="YIA PI Eric Home Wired" />
+      </sshConfig>
+      <sshConfig authType="PASSWORD" host="192.168.254.69" id="787d4266-60d0-43e3-9f31-3299a5e0b955" port="22" customName="YIA PI Eric Home WiFi" nameFormat="CUSTOM" username="pi">
+        <option name="customName" value="YIA PI Eric Home WiFi" />
+      </sshConfig>
     </configs>
   </component>
 </project>

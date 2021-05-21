@@ -102,6 +102,10 @@ function setViewState(state) {
     case VIEW_STATES.Activating:
       // New guest is setup, check to see if their interaction is valid.
       // IMPORTANT: Polling is stopped - eventual going back to Idle will restart
+
+      // Stop Keypress since we don't need it right now
+      cancelKeypress();
+
       // Check not-active station
       if (
         !ViewData.boxState['questItem']['activeFlag'] ||
@@ -470,6 +474,11 @@ function listenForOneKeypress(onKeypressClosure) {
       // Fire off the closure to handle it
       onKeypressClosure();
     });
+}
+
+function cancelKeypress() {
+  console.log('keypress stopping...');
+  $('body').off('keypress');
 }
 
 // On DOM Ready, fire off all the things
