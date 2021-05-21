@@ -38,41 +38,44 @@ class GpioController {
     // Set our content type out
     res.type('application/json');
 
+    a_light.setActiveLow(true);
+    b_light.setActiveLow(true);
+    c_light.setActiveLow(true);
+    d_light.setActiveLow(true);
+
     const lightSequence = req.query['lightSequence'];
 
     // Implement light effects based on the incoming lightSequence
     switch (lightSequence) {
       case LIGHT_SEQUENCE.MultiChoice:
         // User for single answer multiple choice questions. Active until answer is chosen or timeout.
-        console.log('controlLights configuring for "Multiple Choice Question"');
-        a_light.writeSync(0);
-        b_light.writeSync(0);
-        c_light.writeSync(0);
-        d_light.writeSync(0);
+        global.logger.info(('controlLights configuring for "Multiple Choice Question"');
+        a_light.writeSync(1);
+        b_light.writeSync(1);
+        c_light.writeSync(1);
+        d_light.writeSync(1);
         break;
       case LIGHT_SEQUENCE.TrueFalse:
         // Used for true / false questions. Active until an answer is chosen or timeout.
-        console.log('controlLights configuring for "True/False Question"');
-        a_light.writeSync(1);
-        b_light.writeSync(0);
-        c_light.writeSync(0);
-        d_light.writeSync(1);
-        break;
-      case LIGHT_SEQUENCE.IncrDecr:
-        // Used for  increasing / decreasing an integer game. Active until timeout.
-        console.log(
-          'controlLights configuring for "Increment/Decrement Question"'
-        );
+        global.logger.info(('controlLights configuring for "True/False Question"');
         a_light.writeSync(0);
         b_light.writeSync(1);
         c_light.writeSync(1);
         d_light.writeSync(0);
         break;
-      default:
+      case LIGHT_SEQUENCE.IncrDecr:
+        // Used for  increasing / decreasing an integer game. Active until timeout.
+        global.logger.info('controlLights configuring for "Increment/Decrement Question"');
         a_light.writeSync(1);
-        b_light.writeSync(1);
-        c_light.writeSync(1);
+        b_light.writeSync(0);
+        c_light.writeSync(0);
         d_light.writeSync(1);
+        break;
+      default:
+        a_light.writeSync(0);
+        b_light.writeSync(0);
+        c_light.writeSync(0);
+        d_light.writeSync(0);
     }
 
     // Prepare a response object
