@@ -18,6 +18,7 @@ The following are steps to use for various browsers:
 The best way to run the client is to use the included http-server. To do that, from your terminal enter the following:
 
 ```bash
+npm install # First time only
 npm run start
 ```
 
