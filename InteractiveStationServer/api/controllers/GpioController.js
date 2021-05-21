@@ -49,7 +49,7 @@ class GpioController {
     switch (lightSequence) {
       case LIGHT_SEQUENCE.MultiChoice:
         // User for single answer multiple choice questions. Active until answer is chosen or timeout.
-        global.logger.info(('controlLights configuring for "Multiple Choice Question"');
+        global.logger.info('controlLights configuring for "Multiple Choice Question"');
         a_light.writeSync(1);
         b_light.writeSync(1);
         c_light.writeSync(1);
@@ -57,7 +57,7 @@ class GpioController {
         break;
       case LIGHT_SEQUENCE.TrueFalse:
         // Used for true / false questions. Active until an answer is chosen or timeout.
-        global.logger.info(('controlLights configuring for "True/False Question"');
+        global.logger.info('controlLights configuring for "True/False Question"');
         a_light.writeSync(0);
         b_light.writeSync(1);
         c_light.writeSync(1);
