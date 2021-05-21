@@ -22,7 +22,7 @@ npm install # First time only
 npm run start
 ```
 
-Then direct your web browser to "http://127.0.0.1/". Don't forget to allow Auto-Play for Audio on your browser!!
+Then direct your web browser to "http://127.0.0.1:8080/". Don't forget to allow Auto-Play for Audio on your browser!!
 
 ## get-box-state data from the Station Server
 

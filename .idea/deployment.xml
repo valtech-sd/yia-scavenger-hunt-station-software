@@ -10,6 +10,7 @@
           </mappings>
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/InteractiveStationServer/node_modules" />
+            <excludedPath local="true" path="$PROJECT_DIR$/InteractiveStationHtmlClient/node_modules" />
           </excludedPaths>
         </serverdata>
       </paths>
