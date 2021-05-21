@@ -22,14 +22,14 @@
           {
             "BOX_ID": "01",
             "SEQUENCE_ID": "01",
-            "type": "idle",
-            "media": "w01_s01_idle.mp4"
+            "idleMedia": "w01_s01_idle.mp4",
+            "unsuccessfulMedia": "w01_s01_unac.mp4"
           },
           {
             "BOX_ID": "01",
-            "SEQUENCE_ID": "01",
-            "type": "unsuccessful-activation",
-            "media": "w01_s01_unac.mp4"
+            "SEQUENCE_ID": "02",
+            "idleMedia": "w01_s02_idle.mp4",
+            "unsuccessfulMedia": "w01_s02_unac.mp4"
           }
         ]
       ],
@@ -46,15 +46,15 @@
             {
               "BOX_ID": "01",
               "SEQUENCE_ID": "01",
-              "type": "idle",
-              "media": "w01_s01_idle.mp4"
+              "idleMedia": "w01_s01_idle.mp4",
+              "unsuccessfulMedia": "w01_s01_unac.mp4"
             }
           ],
           "required": [
             "BOX_ID",
             "SEQUENCE_ID",
-            "type",
-            "media"
+            "idleMedia",
+            "unsuccessfulMedia"
           ],
           "properties": {
             "BOX_ID": {
@@ -78,24 +78,20 @@
               ]
             },
             "type": {
-              "$id": "#/properties/supportingMedia/items/anyOf/0/properties/type",
+              "$id": "#/properties/supportingMedia/items/anyOf/0/properties/unsuccessfulMedia",
               "type": "string",
-              "title": "The type schema",
-              "description": "An explanation about the purpose of this instance.",
+              "title": "The unsuccessfulMedia schema",
+              "description": "The media to display for unsuccessful activation.",
               "default": "",
-              "enum": [
-                "idle",
-                "unsuccessful-activation"
-              ],
               "examples": [
-                "idle"
+                "w01_s01_unac.mp4"
               ]
             },
             "media": {
-              "$id": "#/properties/supportingMedia/items/anyOf/0/properties/media",
+              "$id": "#/properties/supportingMedia/items/anyOf/0/properties/idleMedia",
               "type": "string",
-              "title": "The media schema",
-              "description": "An explanation about the purpose of this instance.",
+              "title": "The idleMedia schema",
+              "description": "The media to display on IDLE.",
               "default": "",
               "examples": [
                 "w01_s01_idle.mp4"
@@ -118,7 +114,7 @@
           "SEQUENCE_ID": "01",
           "variantId": "a",
           "BOX_ID": "01",
-          "activeFlag": true,
+          "activeFlag": "Y",
           "notActiveMedia": "",
           "activationMedia": "",
           "mainMedia": "",
@@ -146,7 +142,7 @@
               "SEQUENCE_ID": "01",
               "variantId": "a",
               "BOX_ID": "01",
-              "activeFlag": true,
+              "activeFlag": "Y",
               "notActiveMedia": "",
               "activationMedia": "",
               "mainMedia": "",
@@ -208,12 +204,12 @@
             },
             "activeFlag": {
               "$id": "#/properties/questItems/items/anyOf/0/properties/activeFlag",
-              "type": "boolean",
+              "type": "string",
               "title": "The activeFlag schema",
               "description": "An explanation about the purpose of this instance.",
-              "default": false,
+              "default": "Y",
               "examples": [
-                true
+                "Y"
               ]
             },
             "notActiveMedia": {
@@ -260,13 +256,13 @@
               "$id": "#/properties/questItems/items/anyOf/0/properties/viewType",
               "type": "string",
               "title": "The viewType schema",
-              "description": "An explanation about the purpose of this instance.",
+              "description": "The type of View/Question. Should match the ENUM in the API!",
               "default": "",
               "enum": [
-                "question-wait-for-answer"
+                "MultiChoice", "TrueFalse", "IncrDecr"
               ],
               "examples": [
-                "question-wait-for-answer"
+                "MultiChoice"
               ]
             },
             "successKeys": {
