@@ -88,6 +88,13 @@ class BoxState {
     this.#BoxState.guestSequenceId = guestSequenceId;
     this.#BoxState.guestTokenId = guestTokenId;
 
+    // Now, try to find the questItem for this box, sequence, variant
+    this.#BoxState.questItem = QuestConfig.getQuestItemForBox(
+      this.#BoxState.BOX_ID,
+      guestVariantId,
+      this.#BoxState.SEQUENCE_ID // important that we use the box SEQUENCE_ID and not guestSequenceId
+    );
+
     // Log
     const logDetails = {
       boxState: this.#BoxState,

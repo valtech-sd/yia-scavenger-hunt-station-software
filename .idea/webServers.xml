@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="4b996542-507f-400d-90d9-0ff3fd66c8e5" name="Local Pi" url="">
-        <fileTransfer accessType="SFTP" host="192.168.254.69" port="22" sshConfigId="787d4266-60d0-43e3-9f31-3299a5e0b955" sshConfig="YIA PI Eric Home WiFi">
+        <fileTransfer accessType="SFTP" host="10.10.24.137" port="22" sshConfigId="8e1f02f4-77cf-4501-9ada-fa9e404d037d" sshConfig="YIA PI Stash Orchard">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

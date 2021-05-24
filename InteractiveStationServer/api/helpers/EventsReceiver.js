@@ -55,7 +55,7 @@ async function rfidCardDetect() {
     global.logger.info('RFID: Multiple Card Collision');
     return rfidRestartLoop();
   }
-  // TODO: If we have a BoxState already with a SCAN UUID, we don't want to override BoxState, but instead we want to ignore this scan!
+  // If we have a BoxState already with a SCAN UUID, we don't want to override BoxState, but instead we want to ignore this scan!
   const currentBoxState = BoxState.getState();
   if (currentBoxState.guestTokenId) {
     // We already have a guestTokenId, so we want to ignore this scan.
@@ -77,7 +77,7 @@ async function rfidCardDetect() {
 // convert the array of UID bytes to a hex string
 function uidToString(uid) {
   return uid.reduce((s, b) => {
-    return s + (b < 16 ? '0' : '') + b.toString(16);
+    return s + (b < 16 ? '0' : '') + b.toString();
   }, '');
 }
 

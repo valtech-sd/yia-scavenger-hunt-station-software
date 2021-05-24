@@ -143,11 +143,15 @@ Steps:
 ## TODO
 
 * (Stash) Implement rfid scan event with set of state - the GPIO event should use the static method BoxState.recordGuestScan(); See the TODO in the file EventsReceiver.js.
-* (Stash) More light sequences?
+  - (MEDIUM PRIORITY) This possibly broke the server from running on Darwin. Requires research, so we can Mock or otherwise not enable this in Darwin. 
+* (Stash) More light sequences? 
+* (??) Admin tool to read and encode sequence+variant into tokens  
 * (??) Refactor any uses of console.log()
 * (Eric) Front end views matching [Sequence of client actions](#Sequence-of-client-actions).
 * (Eric, low priority) Define the API endpoint responses more fully in the Swagger definition.
 * (??, low priority) Refactor "box" for "station" in all the various places (i.e. STATION_ID, InteractiveStationServer, etc.)
+* Server shows multiple "WARNING! Unable to find a Swagger operation that matches OPTIONS /api/get-box-state" on this and other endpoints. 
+  - Is jQuery firing off OPTIONS? How can we disable it from doing that? (Otherwise we're going to pollute the logs big time!)
 
 ## More items to consider
 
@@ -160,7 +164,4 @@ Station Deployment
 
 Station Logs Pull
 - Need an Ansible to pull the logs from all stations. Should prob use a naming convention.
-
-Client Views
-- Video finishes then actions happen, so events are needed for "video ended", etc.
 
