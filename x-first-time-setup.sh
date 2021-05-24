@@ -6,7 +6,7 @@ sudo apt-get full-upgrade /y
 
 # Install NodeJS
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-sudo apt-get install -y nodejs /y
+sudo apt-get install -y nodejs
 
 # Setup RASPI-CONFIG SPI
 # TODO: Find non-interactive way to do 'sudo raspi-config' and enable OPTION 3 'enable SPI'
