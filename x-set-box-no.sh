@@ -15,6 +15,6 @@ echo "BOX_ID will be set to $1 (by adding to ~/.bashrc"
 read -n1 -rsp $'Press any key to continue or Ctrl+C to exit...\n'
 
 echo "\n# Interactive Server Software" >> ~/.bashrc
-echo "BOX_ID=$1" >> ~/.bashrc
+echo "export BOX_ID=$1" >> ~/.bashrc
 
 echo "Be sure to start a new sell to see the new value."
