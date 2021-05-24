@@ -6,6 +6,3 @@ nohup npm start -- &
 cd ../InteractiveStationHtmlClient
 nohup npm start -- &
 
-# Come back to the directory where we started
-cd ..
-
