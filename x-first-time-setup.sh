@@ -4,6 +4,11 @@
 sudo apt-get update /y
 sudo apt-get full-upgrade /y
 
+# Install GIT LFS
+curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+sudo apt-get install git-lfs /y
+git lfs install
+
 # Install NodeJS
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
