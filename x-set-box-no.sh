@@ -10,9 +10,11 @@ if [ $# -eq 0 ]
     exit 1
 fi
 
-echo "BOX_ID will be set to $1"
+echo "BOX_ID will be set to $1 (by adding to ~/.bashrc"
 # Wait for the user to press any KEY to proceed or allow them to Ctrl+C
 read -n1 -rsp $'Press any key to continue or Ctrl+C to exit...\n'
 
-unset BOX_ID
-export BOX_ID=$1
+echo "\n# Interactive Server Software" >> ~/.bashrc
+echo "BOX_ID=$1" >> ~/.bashrc
+
+echo "Be sure to start a new sell to see the new value."
