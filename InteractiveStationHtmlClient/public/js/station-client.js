@@ -129,7 +129,10 @@ function setViewState(state) {
       // IMPORTANT: Polling is stopped - eventual going back to Idle will restart
       // A new guest is attempting to interact with a station that is not active
       playVideo('#notActiveMedia', VIDEO_FLAGS.playonce, () => {
-        // When the video plays through, fire off a change in state to Idle
+        // When the video plays through
+        // Clear a guest (in the case of WRONG-STATION this will clear the Box State to allow a new scan)
+        resetForNewGuest();
+        // fire off a change in state to Idle
         setViewState(VIEW_STATES.Idle);
       });
       break;
@@ -137,7 +140,10 @@ function setViewState(state) {
       // IMPORTANT: Polling is stopped - eventual going back to Idle will restart
       // A new guest is playing with the wrong week token OR pressed a button before
       playVideo('#unsuccessfulActivationMedia', VIDEO_FLAGS.playonce, () => {
-        // When the video plays through, fire off a change in state to Idle
+        // When the video plays through,
+        // Clear a guest (in the case of WRONG-STATION this will clear the Box State to allow a new scan)
+        resetForNewGuest();
+        // fire off a change in state to Idle
         setViewState(VIEW_STATES.Idle);
       });
       break;

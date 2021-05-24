@@ -84,6 +84,7 @@ Note:
 ## TODO
 
 - Bash scripts to start/stop both NodeJS API and the client http-server, storing processes to PIDs.
-- Some scenarios are showing a white screen for a long time. (verify on mac browser. Are these on Pi only?)
+- Some scenarios are showing a white screen for a long time.
+  - Verified on mac browser. These are Pi only? Yep on PI Chromium only! Possible they go away with Electron?
   - On W1 B, press D correct answer, and we see a pause then the WIN media.
   - After W1 B, going to Idle shows a white screen for a bit
