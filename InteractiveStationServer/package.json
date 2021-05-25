@@ -4,7 +4,6 @@
   "description": "An API project for interactive stations. Based on ApiFocus v 1.0.2.",
   "main": "app.js",
   "scripts": {
-    "start": "NODE_ENV=prod node app.js",
     "start-watch": "NODE_ENV=dev nodemon app.js",
     "start-dev": "NODE_ENV=dev node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -30,7 +29,10 @@
     "onoff": "^6.0.3",
     "pug": "^3.0.2",
     "rpi-softspi": "^1.0.5",
+    "rpi-sysfs-io": "^1.0.1",
+    "rpio": "^2.4.2",
     "serve-favicon": "^2.5.0",
+    "spi-device": "^3.1.1",
     "swagger-express-router": "^1.0.0",
     "swagger-ui-express": "^4.1.6"
   },
