@@ -453,6 +453,10 @@ function resetForNewGuest() {
     });
 }
 
+/**
+ * Listening for a single keypress
+ * @param onKeypressClosure
+ */
 function listenForOneKeypress(onKeypressClosure) {
   // If we didn't get a closure, we won't do a thing!
   if (!onKeypressClosure) {
@@ -482,6 +486,9 @@ function listenForOneKeypress(onKeypressClosure) {
     });
 }
 
+/**
+ * Cancel the keypress event
+ */
 function cancelKeypress() {
   console.log('keypress stopping...');
   $('body').off('keypress');
