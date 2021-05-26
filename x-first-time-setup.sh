@@ -21,11 +21,11 @@ sudo apt-get install -y nodejs
 #
 
 # Client
-cd InteractiveStationHtmlClient
+cd InteractiveStationHtmlClient || exit
 npm install
 
 # Server
-cd ../InteractiveStationServer
+cd ../InteractiveStationServer || exit
 npm install
 
 # Back to root
