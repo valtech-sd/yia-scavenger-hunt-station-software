@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Start the server
-cd InteractiveStationServer
+cd InteractiveStationServer || exit
 nohup npm start -- &
 
 # Change into client and start that
-cd ../InteractiveStationHtmlClient
+cd ../InteractiveStationHtmlClient || exit
 nohup npm start -- &
 

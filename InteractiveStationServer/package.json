@@ -4,6 +4,7 @@
   "description": "An API project for interactive stations. Based on ApiFocus v 1.0.2.",
   "main": "app.js",
   "scripts": {
+    "start": "NODE_ENV=prod node app.js",
     "start-watch": "NODE_ENV=dev nodemon app.js",
     "start-dev": "NODE_ENV=dev node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
