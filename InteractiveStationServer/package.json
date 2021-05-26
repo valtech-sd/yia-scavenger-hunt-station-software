@@ -29,9 +29,11 @@
     "mfrc522-rpi": "^2.1.3",
     "onoff": "^6.0.3",
     "pug": "^3.0.2",
-    "rpi-mfrc522": "^1.0.0",
     "rpi-softspi": "^1.0.5",
+    "rpi-sysfs-io": "^1.0.1",
+    "rpio": "^2.4.2",
     "serve-favicon": "^2.5.0",
+    "spi-device": "^3.1.1",
     "swagger-express-router": "^1.0.0",
     "swagger-ui-express": "^4.1.6"
   },
