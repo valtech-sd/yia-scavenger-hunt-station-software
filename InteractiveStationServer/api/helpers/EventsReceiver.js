@@ -76,7 +76,8 @@ function uidHexToUidString(uidHex) {
     uidHex[0].toString(16) +
     uidHex[1].toString(16) +
     uidHex[2].toString(16) +
-    uidHex[3].toString(16);
+    uidHex[3].toString(16) +
+    uidHex[4].toString(16);
   return uid;
 }
 
