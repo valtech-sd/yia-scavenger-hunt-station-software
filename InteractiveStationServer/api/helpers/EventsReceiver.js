@@ -65,8 +65,8 @@ class EventsReceiver {
 
 // convert the array of UID bytes to a hex string
 function uidHexToUidString(uidHex) {
-      var uid = uidHex[0].toString(16) + uidHex[1].toString(16) + uidHex[2].toString(16) + uidHex[3].toString(16);
-      return uid;
+  var uid = uidHex[0].toString(16) + uidHex[1].toString(16) + uidHex[2].toString(16) + uidHex[3].toString(16) + uidHex[4].toString(16);
+  return uid;
 }
 
 // process RFID card data
