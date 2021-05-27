@@ -24,6 +24,8 @@ const analyticsLogPath = path.join(
 );
 const analyticsLogFileName = config.get('analyticsFileName');
 
+// TODO: Bunyan's file rotation is not awesome. It renames old files to a number for "days ago". We might be better off just writing a single log and using FILEROTATE built into linux.
+
 // Create a logger
 const logger = bunyan.createLogger({
   name: packageDetails.name,
