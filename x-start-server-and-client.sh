@@ -1,10 +1,9 @@
 #!/bin/bash
 
 # Start the server
-cd InteractiveStationServer || exit
+cd /home/pi/Projects/YIA/yia-scavenger-hunt-station-software/InteractiveStationServer || exit
 nohup npm start -- &
 
 # Change into client and start that
-cd ../InteractiveStationHtmlClient || exit
+cd /home/pi/Projects/YIA/yia-scavenger-hunt-station-software/InteractiveStationHtmlClient || exit
 nohup npm start -- &
-
