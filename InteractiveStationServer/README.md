@@ -40,7 +40,7 @@ There are two files that hold configuration:
 * BOX_ID can be overridden in a NODE_ENV specific configuration file or by passing the BOX_ID environment variable into the NODE command. The server will not start without this value.
 * SEQUENCE_ID can be overridden in a NODE_ENV specific configuration file or by passing the SEQUENCE_ID environment variable into the NODE command. The server will not start without this value.
 
-In fact, for the Stations used, we're declaring BOX_ID in each station's ~/.bashrc where we're adding the following:
+In fact, for the Stations used, we're declaring BOX_ID in /etc/environment where we're adding the following:
 
 ```bash
 export BOX_ID=99
