@@ -1,6 +1,6 @@
 # YIA Scavenger Hunt Station Software - README
 
-## Summary 
+## Summary
 
 This repository is composed of two parts:
 
@@ -13,7 +13,7 @@ See the respective directories each of which have their own documentation.
 
 - Manually run the script **x-first-time-setup.sh** from the repo. You'll need to manually copy its contents. It should be run BEFORE trying to do a first GIT CLONE (so that GIT LFS is installed.)
 - Git clone this repo into a directory of choice.
-- Set the station (box) number with **x-set-box-no.sh**.
+- Set the station (box) number with **sudo ./x-set-box-no.sh [1..10]**.
 
 ## Running Server and Client
 
