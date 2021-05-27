@@ -98,7 +98,7 @@ const config = convict({
     doc:
       'The path of the Quest Config file, relative from the root of the project.',
     format: '*',
-    default: './config/quest-config.json5',
+    default: './config/quest-config-dev.json5',
   },
   questConfigSchemaFilePath: {
     doc:

@@ -51,6 +51,21 @@ Where "99" is being set per Station!
 
 The quest details are held in quest-config.json5. Note this can be set to a different file via the server config, and it could be different for different values of NODE_ENV.
 
+### Creating quest-config JSON from Google Sheets
+
+Google Sheet (a single sheet) has two tabs for export:
+* Support Media - https://docs.google.com/spreadsheets/d/15Br4KLswxdlrO5Tc39O9s5mMXmEOmMN9eza7VUZA8zI/edit#gid=1044919816
+* Quest Item - https://docs.google.com/spreadsheets/d/15Br4KLswxdlrO5Tc39O9s5mMXmEOmMN9eza7VUZA8zI/edit#gid=353684181
+
+Steps:
+- Export each sheet to a CSV
+- Eliminate any unwanted rows, etc.
+- Bring into https://csvjson.com/csv2json and convert to JSON
+- Copy the JSON to your favorite editor and perform the following REGEX REPLACE to tweak certain fields:
+  - Replace `SEQUENCE_ID: (\d\d?)` with `SEQUENCE_ID: '$1'`
+  - Replace `BOX_ID: (\d\d?)` with `BOX_ID: '$1'`
+- Bring into the Quest Config for the project
+
 ## Sequence of client actions
 
 Assumptions:
@@ -131,21 +146,6 @@ Analytics Event Names (and who generates them):
 The server's config has two keys that control where Analytics Events are stored:
 - analyticsFileName - the name to be used for the Analytics Event Log. 
 - analyticsLogPath - the path where the Analytics Event Log will be written to.
-
-## Creating quest-config JSON from Google Sheets
-
-Google Sheet (a single sheet) has two tabs for export:
-* Support Media - https://docs.google.com/spreadsheets/d/15Br4KLswxdlrO5Tc39O9s5mMXmEOmMN9eza7VUZA8zI/edit#gid=1044919816
-* Quest Item - https://docs.google.com/spreadsheets/d/15Br4KLswxdlrO5Tc39O9s5mMXmEOmMN9eza7VUZA8zI/edit#gid=353684181
-
-Steps:
-- Export each sheet to a CSV
-- Eliminate any unwanted rows, etc.
-- Bring into https://csvjson.com/csv2json and convert to JSON
-- Copy the JSON to your favorite editor and perform the following REGEX REPLACE to tweak certain fields:
-  - Replace 'SEQUENCE_ID: (\d\d?)' with 'SEQUENCE_ID: "$1"'
-  - Replace 'BOX_ID: (\d\d?)' with 'BOX_ID: "$1"'
-- Bring into the Quest Config for the project
 
 ## TODO
 
