@@ -31,7 +31,7 @@ const logger = bunyan.createLogger({
     {
       type: 'rotating-file',
       path: `${analyticsLogPath}/${analyticsLogFileName}`,
-      period: '1d', // daily rotation
+      period: '14d', // daily rotation
       count: 4, // keep 3 back copies
     },
     {
