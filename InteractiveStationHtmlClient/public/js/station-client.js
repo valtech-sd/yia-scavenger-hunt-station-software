@@ -3,14 +3,13 @@ const SERVER_URI = 'http://localhost:8000';
 const POLL_ENDPOINT = '/api/get-box-state';
 const CLEAR_GUEST_ENDPOINT = '/api/clear-box-state';
 const LIGHT_CONTROL_ENDPOINT = '/api/control-lights';
+const ANALYTICS_ENDPOINT = '/api/report-event';
 const POLLING_INTERVAL_MS = 750;
 const MEDIA_PATH = 'media'; // do not start nor end with '/' so that media is loaded with a relative path!
 // Uncomment one of the two AUDIO_MODEs. Why is this here? During DEV audio can be annoying.
 // See the Station Client Readme for limitations on AUTOPLAY for AUDIO on browsers!
 //const AUDIO_MODE = '';
 const AUDIO_MODE = 'muted';
-
-// TODO: Add analytics reporting the wire into the various state changes
 
 // ENUM for VIEW_STATES
 const VIEW_STATES = {
@@ -63,6 +62,9 @@ function setViewState(state) {
     ViewData.viewState,
     state
   );
+
+  // Log Analytics for the State Change
+  sendAnalytics(createAnalyticsDataObject(state, ViewData));
 
   // Persist the viewState change
   ViewData.viewState = state;
@@ -451,6 +453,45 @@ function resetForNewGuest() {
       // When all done, Good or bad, we restart polling!
       ensureBackendIsPolling();
     });
+}
+
+/**
+ * Create an analytics object as required by the /api/report-event endpoint.
+ *
+ * @param state
+ * @param ViewData
+ * @returns analyticsDataObject suitable for /api/report-event
+ */
+function createAnalyticsDataObject(state, ViewData) {
+  return {
+    guestTokenId: ViewData.boxState.guestTokenId,
+    eventName: `StationClient | State changing to: ${state}`,
+    BOX_ID: ViewData.boxState.BOX_ID,
+    SEQUENCE_ID: ViewData.boxState.guestSequenceId,
+    variantId: ViewData.boxState.guestVariantId,
+    otherData: {
+      newState: state,
+      viewDataBeforeStateChange: ViewData,
+    },
+  };
+}
+
+/**
+ * Send the analytics to the Station Server!
+ *
+ * @param analyticsDataObject
+ */
+function sendAnalytics(analyticsDataObject) {
+  // POST to the API Server Analytics Endpoint
+  $.ajax(SERVER_URI + ANALYTICS_ENDPOINT, {
+    method: 'POST',
+    contentType: 'application/json',
+    // Stringify since we'll do our own processing
+    data: JSON.stringify(analyticsDataObject),
+    processData: false,
+  }).fail((jqXHR, textStatus, errorThrown) => {
+    console.log('sendAnalytics error');
+  });
 }
 
 /**
