@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Update APT
-sudo apt-get update /y
-sudo apt-get full-upgrade /y
+sudo apt-get update
+sudo apt-get full-upgrade
 
 # Install GIT LFS
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
