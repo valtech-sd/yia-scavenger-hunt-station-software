@@ -1009,7 +1009,7 @@
       variantId: 'B',
       activeFlag: 'Y',
       successKeys: 'D',
-      notActiveMedia: 'w01_s09_qB_notactive.mp4',
+      notActiveMedia: '',
       activationMedia: 'w01_s09_qB_activation.mp4',
       mainMedia: 'w01_s09_qB_main.mp4',
       timeoutMedia: 'w01_s09_qB_timeout.mp4',
