@@ -5,5 +5,5 @@
   // Set this box to a specific BOX ID
   BOX_ID: '10', // Will be overriden by the env var BOX_ID
   // Set this server to a specific SEQUENCE ID
-  SEQUENCE_ID: '1',
+  SEQUENCE_ID: '2',
 }

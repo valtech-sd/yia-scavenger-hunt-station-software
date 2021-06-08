@@ -66,6 +66,14 @@ Steps:
   - Replace `BOX_ID: (\d\d?)` with `BOX_ID: '$1'`
 - Bring into the Quest Config for the project
 
+### Updating stations from week-to-week
+
+- Update the MEDIA in the media directory.
+- Update the config. See [Creating quest-config JSON from Google Sheets](#creating-quest-config-json-from-google-sheets).
+- Set the SEQUENCE_ID (week number) in the config files **dev.json5** and **prod.json5**.
+- Commit.
+- On the stations, `git pull`.
+
 ## Sequence of client actions
 
 Assumptions:
