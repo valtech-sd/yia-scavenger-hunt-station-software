@@ -5,5 +5,5 @@
   // Set this box to a specific BOX ID
   BOX_ID: '1',
   // Set this server to a specific SEQUENCE ID
-  SEQUENCE_ID: '2',
+  SEQUENCE_ID: '3',
 }
