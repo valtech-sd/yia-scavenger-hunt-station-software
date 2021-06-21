@@ -6,4 +6,6 @@
   BOX_ID: '1',
   // Set this server to a specific SEQUENCE ID
   SEQUENCE_ID: '3',
+  // For Dev, we enable lights
+  lightsEnabled: true,
 }
