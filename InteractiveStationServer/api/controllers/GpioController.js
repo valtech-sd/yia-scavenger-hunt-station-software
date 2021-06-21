@@ -16,11 +16,14 @@ const UseMockGpio =
 // An object that will hold our GPIO
 const GPIO = UseMockGpio ? MockGpio : require('onoff').Gpio;
 
-// Constants for the lights
-const a_light = new GPIO(6, 'out');
-const b_light = new GPIO(13, 'out');
-const c_light = new GPIO(19, 'out');
-const d_light = new GPIO(26, 'out');
+// Variables/handles for the lights
+let a_light, b_light, c_light, d_light;
+if (LIGHTS_ENABLED) {
+  a_light = new GPIO(6, 'out');
+  b_light = new GPIO(13, 'out');
+  c_light = new GPIO(19, 'out');
+  d_light = new GPIO(26, 'out');
+}
 
 // Light sequence ENUM (NOTE: MATCH THESE TO THE INCOMING REST API)
 const LIGHT_SEQUENCE = {
@@ -32,10 +35,12 @@ const LIGHT_SEQUENCE = {
 
 // Register an application Exit Task to unexport the pins.
 global.exitTasks.push(() => {
-  a_light.unexport();
-  b_light.unexport();
-  c_light.unexport();
-  d_light.unexport();
+  if (LIGHTS_ENABLED) {
+    a_light.unexport();
+    b_light.unexport();
+    c_light.unexport();
+    d_light.unexport();
+  }
 });
 
 class GpioController {
