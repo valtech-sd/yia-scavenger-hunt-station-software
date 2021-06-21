@@ -10,7 +10,7 @@ if [ $# -eq 0 ]
     exit 1
 fi
 
-echo "BOX_ID will be set to $1 (by adding to the /etc/environment file")
+echo "BOX_ID will be set to $1 (by adding to the /etc/environment file)"
 # Wait for the user to press any KEY to proceed or allow them to Ctrl+C
 read -n1 -rsp $'Press any key to continue or Ctrl+C to exit...\n'
 
