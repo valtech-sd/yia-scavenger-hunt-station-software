@@ -118,6 +118,11 @@ const config = convict({
     format: '*',
     default: 'event.log',
   },
+  lightsEnabled: {
+    doc: 'A flag to control whether lights are enabled/disabled.',
+    format: '*',
+    default: false,
+  },
 });
 
 /**

@@ -6,4 +6,6 @@
   BOX_ID: '10', // Will be overriden by the env var BOX_ID
   // Set this server to a specific SEQUENCE ID
   SEQUENCE_ID: '3',
+  // For now, we disable lights in PROD
+  lightsEnabled: false,
 }
