@@ -8,8 +8,8 @@ const POLLING_INTERVAL_MS = 750;
 const MEDIA_PATH = 'media'; // do not start nor end with '/' so that media is loaded with a relative path!
 // Uncomment one of the two AUDIO_MODEs. Why is this here? During DEV audio can be annoying.
 // See the Station Client Readme for limitations on AUTOPLAY for AUDIO on browsers!
-//const AUDIO_MODE = '';
-const AUDIO_MODE = 'muted';
+const AUDIO_MODE = '';
+//const AUDIO_MODE = 'muted';
 
 // ENUM for VIEW_STATES
 const VIEW_STATES = {
