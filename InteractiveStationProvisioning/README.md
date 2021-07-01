@@ -2,7 +2,8 @@
 
 ## Station Login
 
-- Access via SSH with `ssh pi@192.168.254.xx`
+- Access via SSH with `ssh pi@[hostname].local`
+  - [hostname] pattern = quest + {leading zeros to hundreds place} + #   (ex: quest001)
   - password Valtech!
   - replace the IP address above as necessary for your network
 
@@ -10,7 +11,7 @@
 
 This repository includes a script for FIRST TIME SETUP that should handle all the dependencies. See **x-first-time-setup.sh**.
 
-> **Note:** As of the last update of this readme, there might be some additional dependencies not mentioned here or covered in first time setup. We do have an IMAGE of a working BOX. See below for how to restore a BOX IMAGE. 
+> **Note:** As of the last update of this readme, there might be some additional dependencies not mentioned here or covered in first time setup. We do have an IMAGE of a working BOX. See below for how to restore a BOX IMAGE.
 
 - Update apt-get and packages
 
@@ -91,6 +92,7 @@ Type=Application
 
 ```bash
 #!/bin/bash
+sleep 60s
 xscreensaver -nosplash &
 cat ~/.config/chromium/Local\ State | perl -pe "s/\"bottom.*/\"bottom\": $(xrandr | grep \* | cut -d' ' -f4 | cut -d'x' -f2),/" > ~/.config/chromium/Local\ Sta$
 cat ~/.config/chromium/Local\ State | perl -pe "s/\"right.*/\"right\": $(xrandr | grep \* | cut -d' ' -f4 | cut -d'x' -f1),/" > ~/.config/chromium/Local\ State
@@ -107,10 +109,10 @@ After the update, reboot the box with `sudo reboot`.
 
 To restore a working image to a station:
 
-1. Download the image from https://drive.google.com/drive/u/0/folders/1Cn-pArw7gbfKPETaNsvD2j3ZAUK_kMJK 
+1. Download the image from https://drive.google.com/drive/u/0/folders/1Cn-pArw7gbfKPETaNsvD2j3ZAUK_kMJK
 1. Unzip the image.
 1. Plug the PI's SD card into your Mac.
-1. Use `diskutil list` to figure out the mount point for the SD card. For example, this might be something like `/dev/disk99`. 
+1. Use `diskutil list` to figure out the mount point for the SD card. For example, this might be something like `/dev/disk99`.
 1. Unmount it with `diskutil unmountDisk /dev/disk99`. (replace the destination with yours!)
 1. Copy the image over with `sudo dd if=minimal-kiosk.img of=/dev/disk99`. (replace the destination with yours!)
 1. After, pop the SD card back into the PI and boot.
