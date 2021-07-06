@@ -17,10 +17,7 @@ class GeneralErrorHelper {
    */
   static formatError(err, req) {
     // Hydrate our error model
-    const swaggerParseError = new SwaggerParseError(
-      err,
-      req.swagger
-    );
+    const swaggerParseError = new SwaggerParseError(err, req.swagger);
     // Map the error template
     const swaggerParseErrorTemplatePath = path.join(
       __dirname,
