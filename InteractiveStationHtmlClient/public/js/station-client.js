@@ -75,10 +75,13 @@ function setViewState(state) {
       // Turn off lights
       setLights('Off');
       // Play the Idle Media
-      playVideo('#idleMedia', VIDEO_FLAGS.loop);
-      // Ensure polling is happening since we're in Idle
-      ensureBackendIsPolling();
-      // Listen for keypress
+      playVideo('#idleMedia', VIDEO_FLAGS.playonce, () => {
+        // When the video plays through
+        // Clear a guest (in case it was missed or server-side is stuck)
+        // This will also Ensure polling is happening since we're going to Idle
+        setViewState(VIEW_STATES.ResetForNewGuest);
+      });
+      // Listen for keypress (safe to call repeatedly since it will first stop any prior listeners)
       listenForOneKeypress(() => {
         // On any keypress while in Idle, we go to UnsuccessfulActivation
         setViewState(VIEW_STATES.UnsuccessfulActivation);
@@ -132,10 +135,8 @@ function setViewState(state) {
       // A new guest is attempting to interact with a station that is not active
       playVideo('#notActiveMedia', VIDEO_FLAGS.playonce, () => {
         // When the video plays through
-        // Clear a guest (in the case of WRONG-STATION this will clear the Box State to allow a new scan)
-        resetForNewGuest();
-        // fire off a change in state to Idle
-        setViewState(VIEW_STATES.Idle);
+        // Clear any guest that might be sticking
+        setViewState(VIEW_STATES.ResetForNewGuest);
       });
       break;
     case VIEW_STATES.UnsuccessfulActivation:
@@ -144,9 +145,7 @@ function setViewState(state) {
       playVideo('#unsuccessfulActivationMedia', VIDEO_FLAGS.playonce, () => {
         // When the video plays through,
         // Clear a guest (in the case of WRONG-STATION this will clear the Box State to allow a new scan)
-        resetForNewGuest();
-        // fire off a change in state to Idle
-        setViewState(VIEW_STATES.Idle);
+        setViewState(VIEW_STATES.ResetForNewGuest);
       });
       break;
     case VIEW_STATES.ActivationSuccess:
@@ -208,10 +207,38 @@ function setViewState(state) {
     case VIEW_STATES.Win:
       // IMPORTANT: Polling is stopped - eventual going back to Idle will restart
       // The guest "won" this view!
-      playVideo('#successMedia', VIDEO_FLAGS.playonce, () => {
-        // When the video plays through, fire off a change in state to Idle
-        setViewState(VIEW_STATES.ResetForNewGuest);
-      });
+
+      // Figure out what we play based on view type
+      if (ViewData.boxState['questItem']['viewType'] === 'OpenChoice') {
+        // Play a video based on the user's keypress (which are already UPPERCASED when being received)
+        // Yes I know a select here is way more verbose, but it's also more clear. :)
+        let selectorToPlayForOpenChoice;
+        switch (ViewData.lastInput) {
+          case 'A':
+            selectorToPlayForOpenChoice = '#successMediaA';
+            break;
+          case 'B':
+            selectorToPlayForOpenChoice = '#successMediaB';
+            break;
+          case 'C':
+            selectorToPlayForOpenChoice = '#successMediaC';
+            break;
+          case 'D':
+            selectorToPlayForOpenChoice = '#successMediaD';
+            break;
+        }
+        // Play the proper video!
+        playVideo(selectorToPlayForOpenChoice, VIDEO_FLAGS.playonce, () => {
+          // When the video plays through, fire off a change in state to Idle
+          setViewState(VIEW_STATES.ResetForNewGuest);
+        });
+      } else {
+        // Just play the success video
+        playVideo('#successMedia', VIDEO_FLAGS.playonce, () => {
+          // When the video plays through, fire off a change in state to Idle
+          setViewState(VIEW_STATES.ResetForNewGuest);
+        });
+      }
       break;
     case VIEW_STATES.FailRetry:
       // IMPORTANT: Polling is stopped - eventual going back to Idle will restart
@@ -232,9 +259,10 @@ function setViewState(state) {
     case VIEW_STATES.ResetForNewGuest:
       // IMPORTANT: Polling is stopped - eventual going back to Idle will restart
       // Reset the server API for a new guest
-      resetForNewGuest();
-      // Set to Idle
-      setViewState(VIEW_STATES.Idle);
+      resetForNewGuest().then(() => {
+        // Set to Idle
+        setViewState(VIEW_STATES.Idle);
+      });
       break;
     default:
       console.log('setViewState called with invalid state = ' + state);
@@ -309,6 +337,10 @@ function setAllMedia() {
       setSingleMedia('#successMedia', questItem['successMedia']);
       setSingleMedia('#retryMedia', questItem['retryMedia']);
       setSingleMedia('#failMedia', questItem['failMedia']);
+      setSingleMedia('#successMediaA', questItem['successMediaA']);
+      setSingleMedia('#successMediaB', questItem['successMediaB']);
+      setSingleMedia('#successMediaC', questItem['successMediaC']);
+      setSingleMedia('#successMediaD', questItem['successMediaD']);
     } else {
       throw new Error('questItem is empty! Cant set Quest Media!');
     }
@@ -441,7 +473,8 @@ function resetForNewGuest() {
   // Stop polling so we can reset without conflicts
   stopBackendPolling();
   // Reset the API BoxState (which clears the guest)
-  $.get(SERVER_URI + CLEAR_GUEST_ENDPOINT, (serverResponse) => {
+  // Note this is a PROMISE!! So the caller must wait for that!!
+  return $.get(SERVER_URI + CLEAR_GUEST_ENDPOINT, (serverResponse) => {
     // All good. Log it.
     console.log('resetForNewGuest OK.');
   })
