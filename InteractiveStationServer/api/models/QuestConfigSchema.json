@@ -259,7 +259,7 @@
               "description": "The type of View/Question. Should match the ENUM in the API!",
               "default": "",
               "enum": [
-                "MultiChoice", "TrueFalse", "IncrDecr"
+                "MultiChoice", "TrueFalse", "IncrDecr", "OpenChoice"
               ],
               "examples": [
                 "MultiChoice"

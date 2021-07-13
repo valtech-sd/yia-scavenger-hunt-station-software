@@ -36,6 +36,15 @@ paths:
       responses:
         "200":
           description: "**OK**: The server is up. A simple JSON object is returned with a timestamp."
+    options:
+      tags:
+        - no auth
+      summary: |
+        The OPTIONS call for the endpoint.
+      description: "This is just the OPTIONS method for this endpoint. It's useful in cross-domain calls to avoid an API match error."
+      responses:
+        "200":
+          description: "**OK**: Returns the methods allowed for the endpoint."
 
   /api/set-box-state:
     get:
@@ -81,6 +90,15 @@ paths:
       responses:
         "200":
           description: "**OK**: State Set. Returns JSON with the state that was set."
+    options:
+      tags:
+        - no auth
+      summary: |
+        The OPTIONS call for the endpoint.
+      description: "This is just the OPTIONS method for this endpoint. It's useful in cross-domain calls to avoid an API match error."
+      responses:
+        "200":
+          description: "**OK**: Returns the methods allowed for the endpoint."
 
   /api/clear-box-state:
     get:
@@ -97,6 +115,15 @@ paths:
       responses:
         "200":
           description: "**OK**: State Cleared. Returns JSON (empty State)."
+    options:
+      tags:
+        - no auth
+      summary: |
+        The OPTIONS call for the endpoint.
+      description: "This is just the OPTIONS method for this endpoint. It's useful in cross-domain calls to avoid an API match error."
+      responses:
+        "200":
+          description: "**OK**: Returns the methods allowed for the endpoint."
 
   /api/get-box-state:
     get:
@@ -112,6 +139,15 @@ paths:
       responses:
         "200":
           description: "**OK**: Returns State JSON."
+    options:
+      tags:
+        - no auth
+      summary: |
+        The OPTIONS call for the endpoint.
+      description: "This is just the OPTIONS method for this endpoint. It's useful in cross-domain calls to avoid an API match error."
+      responses:
+        "200":
+          description: "**OK**: Returns the methods allowed for the endpoint."
 
   /api/control-lights:
     get:
@@ -131,11 +167,20 @@ paths:
             A key that represents the light sequence to display.
             Be sure the ENUM matches that QuestConfigSchema ENUM for viewType!
           type: string
-          enum: [Off, MultiChoice, TrueFalse, IncrDecr]
+          enum: [Off, MultiChoice, TrueFalse, IncrDecr, OpenChoice]
           required: true
       responses:
         "200":
           description: "**OK**: Returns State JSON."
+    options:
+      tags:
+        - no auth
+      summary: |
+        The OPTIONS call for the endpoint.
+      description: "This is just the OPTIONS method for this endpoint. It's useful in cross-domain calls to avoid an API match error."
+      responses:
+        "200":
+          description: "**OK**: Returns the methods allowed for the endpoint."
 
   /api/report-event:
     post:
@@ -156,6 +201,15 @@ paths:
       responses:
         "204":
           description: "**OK**: Returns Event Confirmation JSON."
+    options:
+      tags:
+        - no auth
+      summary: |
+        The OPTIONS call for the endpoint.
+      description: "This is just the OPTIONS method for this endpoint. It's useful in cross-domain calls to avoid an API match error."
+      responses:
+        "200":
+          description: "**OK**: Returns the methods allowed for the endpoint."
 
 definitions:
 
