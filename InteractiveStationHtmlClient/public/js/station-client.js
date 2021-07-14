@@ -56,7 +56,6 @@ function setViewState(state) {
   if (ViewData.viewState === state) return;
 
   // ASSERT: viewState is changing!
-
   console.log(
     'viewState is %s and is being set to change to %s',
     ViewData.viewState,
@@ -64,7 +63,9 @@ function setViewState(state) {
   );
 
   // Log Analytics for the State Change
-  sendAnalytics(createAnalyticsDataObject(state, ViewData));
+  if (ViewData && ViewData.boxState) {
+    sendAnalytics(createAnalyticsDataObject(state, ViewData));
+  }
 
   // Persist the viewState change
   ViewData.viewState = state;
@@ -78,9 +79,10 @@ function setViewState(state) {
       playVideo('#idleMedia', VIDEO_FLAGS.playonce, () => {
         // When the video plays through
         // Clear a guest (in case it was missed or server-side is stuck)
-        // This will also Ensure polling is happening since we're going to Idle
         setViewState(VIEW_STATES.ResetForNewGuest);
       });
+      // Ensure backend is polling - so we get scans
+      ensureBackendIsPolling();
       // Listen for keypress (safe to call repeatedly since it will first stop any prior listeners)
       listenForOneKeypress(() => {
         // On any keypress while in Idle, we go to UnsuccessfulActivation
@@ -570,5 +572,5 @@ function cancelKeypress() {
 
 // On DOM Ready, fire off all the things
 $(() => {
-  ensureBackendIsPolling();
+  setViewState(VIEW_STATES.ResetForNewGuest);
 });
