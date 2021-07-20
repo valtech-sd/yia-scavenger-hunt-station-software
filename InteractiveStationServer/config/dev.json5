@@ -5,7 +5,7 @@
   // Set this box to a specific BOX ID
   BOX_ID: '9',
   // Set this server to a specific SEQUENCE ID
-  SEQUENCE_ID: '7',
+  SEQUENCE_ID: '8',
   // For Dev, we enable lights
   lightsEnabled: true,
 }
