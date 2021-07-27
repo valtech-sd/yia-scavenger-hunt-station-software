@@ -8,8 +8,8 @@ const POLLING_INTERVAL_MS = 750;
 const MEDIA_PATH = 'media'; // do not start nor end with '/' so that media is loaded with a relative path!
 // Uncomment one of the two AUDIO_MODEs. Why is this here? During DEV audio can be annoying.
 // See the Station Client Readme for limitations on AUTOPLAY for AUDIO on browsers!
-const AUDIO_MODE = '';
-//const AUDIO_MODE = 'muted';
+// const AUDIO_MODE = '';
+const AUDIO_MODE = 'muted';
 
 // ENUM for VIEW_STATES
 const VIEW_STATES = {
@@ -201,6 +201,10 @@ function setViewState(state) {
     case VIEW_STATES.Timeout:
       // IMPORTANT: Polling is stopped - eventual going back to Idle will restart
       // The guest timed out from the Main Show!
+
+      // Send a WIN event
+      sendAnalytics(createInteractionDataObject(`Timeout`, ViewData));
+
       playVideo('#timeoutMedia', VIDEO_FLAGS.playonce, () => {
         // When the video plays through, fire off a change in state to Idle
         setViewState(VIEW_STATES.ResetForNewGuest);
@@ -209,6 +213,9 @@ function setViewState(state) {
     case VIEW_STATES.Win:
       // IMPORTANT: Polling is stopped - eventual going back to Idle will restart
       // The guest "won" this view!
+
+      // Send a WIN event
+      sendAnalytics(createInteractionDataObject(`Win`, ViewData));
 
       // Figure out what we play based on view type
       if (ViewData.boxState['questItem']['viewType'] === 'OpenChoice') {
@@ -253,6 +260,10 @@ function setViewState(state) {
     case VIEW_STATES.Fail:
       // IMPORTANT: Polling is stopped - eventual going back to Idle will restart
       // The guest failed the Main Show including all retries!
+
+      // Send a WIN event
+      sendAnalytics(createInteractionDataObject(`Fail`, ViewData));
+
       playVideo('#failMedia', VIDEO_FLAGS.playonce, () => {
         // When the video plays through, fire off a change in state to Idle
         setViewState(VIEW_STATES.ResetForNewGuest);
@@ -507,6 +518,28 @@ function createAnalyticsDataObject(state, ViewData) {
     otherData: {
       newState: state,
       viewDataBeforeStateChange: ViewData,
+    },
+  };
+}
+
+/**
+ * Create an interaction object as required by the /api/report-event endpoint.
+ *
+ * @param interactionResult
+ * @param ViewData
+ * @returns analyticsDataObject suitable for /api/report-event
+ */
+function createInteractionDataObject(interactionResult, ViewData) {
+  return {
+    guestTokenId: ViewData.boxState.guestTokenId,
+    eventName: `StationClient | Guest Interaction Result`,
+    BOX_ID: ViewData.boxState.BOX_ID,
+    SEQUENCE_ID: ViewData.boxState.guestSequenceId,
+    variantId: ViewData.boxState.guestVariantId,
+    otherData: {
+      interactionResult: interactionResult,
+      viewType: ViewData.boxState.questItem.viewType,
+      guestSelection: ViewData.lastInput,
     },
   };
 }
