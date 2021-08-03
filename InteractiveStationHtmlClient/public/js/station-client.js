@@ -5,15 +5,20 @@ const CLEAR_GUEST_ENDPOINT = '/api/clear-box-state';
 const LIGHT_CONTROL_ENDPOINT = '/api/control-lights';
 const ANALYTICS_ENDPOINT = '/api/report-event';
 const POLLING_INTERVAL_MS = 750;
+// WATCHDOG_INTERVAL is how long in between checking for a client in an inconsistent state
+const WATCHDOG_INTERVAL = 2; // 2 seconds
+// WATCHDOG_STATE_STUCK_LIMIT should be long enough for an entire view sequence to happen (including all state changes)
+const WATCHDOG_STATE_STUCK_LIMIT = 30; // 30 seconds
 const MEDIA_PATH = 'media'; // do not start nor end with '/' so that media is loaded with a relative path!
 // Uncomment one of the two AUDIO_MODEs. Why is this here? During DEV audio can be annoying.
 // See the Station Client Readme for limitations on AUTOPLAY for AUDIO on browsers!
-// const AUDIO_MODE = '';
-const AUDIO_MODE = 'muted';
+const AUDIO_MODE = '';
+// const AUDIO_MODE = 'muted';
 
 // ENUM for VIEW_STATES
 const VIEW_STATES = {
   Loading: 'Loading',
+  SetupForIdle: 'SetupForIdle',
   Idle: 'Idle',
   BoxStateDidChange: 'BoxStateDidChange',
   GuestDidChange: 'GuestDidChange',
@@ -43,6 +48,8 @@ ViewData = {
   answerTryCount: 0,
   boxState: null,
   lastInput: '',
+  currentVideoPlaying: null,
+  watchdog: { viewState: null, timestamp: null },
 };
 
 /**
@@ -72,15 +79,9 @@ function setViewState(state) {
 
   // Perform actions depending on the new state
   switch (state) {
-    case VIEW_STATES.Idle:
+    case VIEW_STATES.SetupForIdle:
       // Turn off lights
       setLights('Off');
-      // Play the Idle Media
-      playVideo('#idleMedia', VIDEO_FLAGS.playonce, () => {
-        // When the video plays through
-        // Clear a guest (in case it was missed or server-side is stuck)
-        setViewState(VIEW_STATES.ResetForNewGuest);
-      });
       // Ensure backend is polling - so we get scans
       ensureBackendIsPolling();
       // Listen for keypress (safe to call repeatedly since it will first stop any prior listeners)
@@ -88,6 +89,16 @@ function setViewState(state) {
         // On any keypress while in Idle, we go to UnsuccessfulActivation
         setViewState(VIEW_STATES.UnsuccessfulActivation);
       });
+      // Load and Play the Idle Media
+      playVideo('#idleMedia', VIDEO_FLAGS.playonce, () => {
+        // Each time the video plays through
+        // Clear a guest (in case it was missed or server-side is stuck)
+        setViewState(VIEW_STATES.ResetForNewGuest);
+      });
+      setViewState(VIEW_STATES.Idle);
+      break;
+    case VIEW_STATES.Idle:
+      // Just idling...
       break;
     case VIEW_STATES.GuestDidChange:
       // New guest, so setup the view to restart the experience
@@ -104,7 +115,7 @@ function setViewState(state) {
       // BoxState changed but not New guest, so we can reset all the media that we can
       // IMPORTANT: Polling is stopped - eventual going back to Idle will restart
       setAllMedia();
-      setViewState(VIEW_STATES.Idle);
+      setViewState(VIEW_STATES.SetupForIdle);
       break;
     case VIEW_STATES.Activating:
       // New guest is setup, check to see if their interaction is valid.
@@ -270,8 +281,8 @@ function setViewState(state) {
       });
       break;
     case VIEW_STATES.ResetForNewGuest:
-      // IMPORTANT: Polling is stopped - eventual going back to Idle will restart
       // Reset the server API for a new guest
+      console.log('ResetForNewGuest firing...');
       resetForNewGuest().then(() => {
         // Set to Idle
         setViewState(VIEW_STATES.Idle);
@@ -291,13 +302,20 @@ function setViewState(state) {
  */
 function playVideo(selector, loopFlag = VIDEO_FLAGS.loop, playthroughClosure) {
   console.log(
-    'playVideo starting for selector="%s" with loop="%s" and playthrough-closure-present="%s"',
-    selector,
-    loopFlag,
-    playthroughClosure !== null
+    `Request received to playVideo for selector="${selector}" with loop="${loopFlag}" and playthrough-closure-present="${
+      playthroughClosure !== null
+    }"`
   );
-  // Stop all videos before playing another
-  $('video').hide().trigger('pause');
+
+  // If we're playing a different video "next", we want to hide/pause any others
+  if (
+    !ViewData.currentVideoPlaying ||
+    ViewData.currentVideoPlaying !== selector
+  ) {
+    // Stop + hide all videos before playing another
+    $('video').hide().trigger('pause');
+  }
+
   // Enforce Audio Mode per our page flag
   $(selector).prop('muted', AUDIO_MODE === 'muted');
   // Enable/disable looping per our page flag
@@ -309,17 +327,24 @@ function playVideo(selector, loopFlag = VIDEO_FLAGS.loop, playthroughClosure) {
     // change viewState properly to remove the video, play another, etc.
     $(selector).one('ended', () => {
       console.log(
-        'Video with selector "%s" ended. Firing off the playthroughClosure()',
-        selector
+        `Video with selector "${selector}" ended. Firing off the playthroughClosure()`
       );
       playthroughClosure();
     });
   }
-  // TODO: Is there a better way to restart the video without LOAD? Load has a noticeable BLINK!
-  // Play the video (we force a reload in case it was previously paused)
-  $(selector).show().trigger('load').trigger('play');
+  // If we're playing a different video "next", we need to fade it in before we play it
+  if (
+    !ViewData.currentVideoPlaying ||
+    ViewData.currentVideoPlaying !== selector
+  ) {
+    $(selector).fadeIn();
+  }
+  // Play the video
+  $(selector).prop('currentTime', 0).trigger('play');
+  // Set the global page var of what is playing
+  ViewData.currentVideoPlaying = selector;
   // Log
-  console.log('Playing %s', selector);
+  console.log(`Playing ${selector}`);
 }
 
 /**
@@ -327,8 +352,13 @@ function playVideo(selector, loopFlag = VIDEO_FLAGS.loop, playthroughClosure) {
  */
 function setAllMedia() {
   try {
-    // Stop all videos before playing another
-    $('video').hide().trigger('stop');
+    // Nothing to do if we don't yet have boxState
+    if (!ViewData.boxState) {
+      return;
+    }
+
+    // ASSERT: We have boxState so lets set all the media that we can.
+
     // A shortcut for boxState to type less
     const bxst = ViewData.boxState;
     // Pull out Idle Media
@@ -377,10 +407,13 @@ function setSingleMedia(selector, mediaSrc) {
       sourceSelector,
       fullMediaPath
     );
-    // Set the SRC attribute of the <source> element inside the given <video>
-    $(sourceSelector).attr('src', fullMediaPath);
-    // Force a load of the <video> element so the new content is loaded
-    $(selector).trigger('load');
+    // Set the SRC attribute of the <source> element inside the given <video>,
+    // but only if different than it's set to  (This prevents the "blink" we get when loading)
+    if ($(sourceSelector).attr('src') !== fullMediaPath) {
+      $(sourceSelector).attr('src', fullMediaPath);
+      // Force a load of the <video> element so the new content is loaded
+      $(selector).trigger('load');
+    }
   }
 }
 
@@ -419,7 +452,7 @@ function ensureBackendIsPolling() {
           if (!serverResponse.guestTokenId) {
             // No guest, so just fire BoxStateDidChange
             // Fire off the new state - which will restart polling once it finishes
-            console.log('No guestTokenId.');
+            console.log('No guestTokenId yet.');
             setViewState(VIEW_STATES.BoxStateDidChange);
           } else {
             // We do have a guest, so instead fire GuestDidChange
@@ -603,7 +636,75 @@ function cancelKeypress() {
   $('body').off('keypress');
 }
 
+/**
+ * A simple mechanism to prevent a stuck client.
+ * This calls various individual checks on an interval.
+ */
+function clientWatchdog() {
+  // Set our interval check every so often
+  setInterval(() => {
+    // Check for playing video
+    ensureVideoIsPlaying();
+    // Check for stuck state
+    ensureStateIsNotStuck();
+  }, WATCHDOG_INTERVAL * 1000);
+}
+
+/**
+ * A very simple check to see if at least one video is playing
+ * and if not, calls the right view state setup!
+ */
+function ensureVideoIsPlaying() {
+  // We expect a video to be playing Idle. If not, we have a problem!
+  if ($('video').prop('paused') && ViewData.viewState === VIEW_STATES.Idle) {
+    // Somehow we're paused, and there should always be video playing on Idle
+    // So we reset!
+    console.log(
+      `Detected that no video is playing while Idle! Setting SetupForIdle.`
+    );
+    setViewState(VIEW_STATES.SetupForIdle);
+  }
+}
+
+/**
+ * Ensures that viewState is not stuck in a state (other than Idle states) for longer
+ * than WATCHDOG_STATE_STUCK_LIMIT which is set at page level.
+ *
+ * If this is detected, the method forces a setViewState to SetupForIdle.
+ *
+ */
+function ensureStateIsNotStuck() {
+  // Convenience
+  const wo = ViewData.watchdog;
+  // First time?
+  if (!wo.viewState || wo.viewState !== ViewData.viewState) {
+    // first time setup or different since last check, so just capture
+    wo.viewState = ViewData.viewState;
+    // Timestamp in seconds
+    wo.timestamp = Math.floor(new Date().getTime() / 1000.0);
+  } else {
+    // Same state since last check.
+    // Set the timestamp of the check we're doing "now" in seconds
+    const nowCheck = Math.floor(new Date().getTime() / 1000.0);
+    // Are we stuck in the same state, other than Idle states, for more than some time?
+    if (
+      ViewData.viewState !== VIEW_STATES.Idle &&
+      ViewData.viewState !== VIEW_STATES.SetupForIdle &&
+      nowCheck - wo.timestamp > WATCHDOG_STATE_STUCK_LIMIT
+    ) {
+      // We are stuck... log & take corrective action
+      console.log(
+        `Stuck in ${ViewData.viewState} for over ${WATCHDOG_STATE_STUCK_LIMIT} seconds. Setting SetupForIdle.`
+      );
+      setViewState(VIEW_STATES.SetupForIdle);
+    }
+  }
+}
+
 // On DOM Ready, fire off all the things
 $(() => {
-  setViewState(VIEW_STATES.ResetForNewGuest);
+  // Start with Backend polling, which will set the right view state
+  ensureBackendIsPolling();
+  // Start our watchdog
+  clientWatchdog();
 });
