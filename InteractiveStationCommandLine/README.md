@@ -4,6 +4,17 @@
 
 These tools are intended to allow for easy RFID Card Management by allowing easy read and write functionality.
 
+## Dependencies
+1) RPi.GPIO - This package provides a class to control the GPIO on a Raspberry Pi.
+2) MFRC522 - A python library to read/write RFID tags via the budget MFRC522 RFID module.
+
+sudo apt update
+sudo apt upgrade
+sudo apt install python-pip python-dev
+sudo pip install RPi.GPIO
+sudo pip install mfrc522
+
+
 ## readRFID.py
 ##    > python readRFID.py
 
