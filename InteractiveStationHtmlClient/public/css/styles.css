@@ -3,6 +3,7 @@ body {
   margin: 0;
   /* No Scrollbars no matter what! */
   overflow: hidden;
+  background-color: black;
 }
 
 .videoPlayer {
