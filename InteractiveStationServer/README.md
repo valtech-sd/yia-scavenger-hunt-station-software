@@ -54,16 +54,22 @@ The quest details are held in quest-config.json5. Note this can be set to a diff
 ### Creating quest-config JSON from Google Sheets
 
 Google Sheet (a single sheet) has two tabs for export:
+
+2021
 * Support Media - https://docs.google.com/spreadsheets/d/15Br4KLswxdlrO5Tc39O9s5mMXmEOmMN9eza7VUZA8zI/edit#gid=1044919816
 * Quest Item - https://docs.google.com/spreadsheets/d/15Br4KLswxdlrO5Tc39O9s5mMXmEOmMN9eza7VUZA8zI/edit#gid=353684181
+
+2022
+* Support Media - https://docs.google.com/spreadsheets/d/1dDHY1Pz0ucBbO2-WlYq5XFeuAhPAb-KkNCZGqhEk4lA/edit#gid=1044919816
+* Quest Item - https://docs.google.com/spreadsheets/d/1dDHY1Pz0ucBbO2-WlYq5XFeuAhPAb-KkNCZGqhEk4lA/edit#gid=353684181
 
 Steps:
 - Export each sheet to a CSV
 - Eliminate any unwanted rows, etc.
 - Bring into https://csvjson.com/csv2json and convert to JSON
 - Copy the JSON to your favorite editor and perform the following REGEX REPLACE to tweak certain fields:
-  - Replace `SEQUENCE_ID: (\d\d?)` with `SEQUENCE_ID: '$1'`
-  - Replace `BOX_ID: (\d\d?)` with `BOX_ID: '$1'`
+  - Replace `"SEQUENCE_ID": (\d\d?)` with `"SEQUENCE_ID": "$1"`
+  - Replace `"BOX_ID": (\d\d?)` with `"BOX_ID": "$1"`
 - Bring into the Quest Config for the project
 
 ### Updating stations from week-to-week

@@ -117,3 +117,16 @@ To restore a working image to a station:
 1. Copy the image over with `sudo dd if=minimal-kiosk.img of=/dev/disk99`. (replace the destination with yours!)
 1. After, pop the SD card back into the PI and boot.
 1. Once it boots, SSH into it and update `/etc/environment` to set the proper **BOX_ID** for the box. Also, verify that the PI user's .bashrc is not also setting BOX_ID!
+
+## Station Image Create
+
+1. Start from an sd card that is working on a station.
+1. Use `diskutil list` to figure out the mount point for the SD card. For example, this might be something like `/dev/disk99`.
+1. Change to a directory of your convenience where you'll create the image.
+1. Make an image of the SD card with `sudo dd if=/dev/disk99 of=minimal-kiosk.img`.
+
+(Steps for image management from https://howchoo.com/pi/create-a-backup-image-of-your-raspberry-pi-sd-card-in-mac-osx)
+
+
+
+
